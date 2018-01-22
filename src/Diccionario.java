@@ -1,4 +1,4 @@
-package es.upm.dit.adsw.ej1;
+package es.upm.dit.adsw.ej2;
 
 /**
  * Mapas clave -> valor.
@@ -6,8 +6,8 @@ package es.upm.dit.adsw.ej1;
  * @version 6.12.2015
  */
 public interface Diccionario {
-
-    /**
+	
+	/**
      * Mete un valor nuevo.
      * Si ya existe uno con misma clave, reemplaza el valor.
      *
@@ -16,36 +16,39 @@ public interface Diccionario {
      * @throws IllegalArgumentException Si clave es null.
      * @throws IllegalArgumentException Si clave es la cadena vacia.
      * @throws RuntimeException Si no cabe la clave.
-     */
-    void put(String clave, String valor);
-
-    /**
+	 */
+	void put (String clave, String valor);
+	
+	/**
      * Saca el valor asociado a la clave.
      *
      * @param clave
      * @return null si no está la clave.
      * @throws IllegalArgumentException Si clave es null.
      * @throws IllegalArgumentException Si clave es la cadena vacia.
-     */
-    String get(String clave);
-
-    /**
+	 */
+	String get(String clave);
+	
+	/**
      * Elimina el objeto asociado a la clave, si está.
      *
      * @param clave
      * @return devuelve el valor asociado si estaba la clave; devuelve null si no está la clave
      * @throws IllegalArgumentException Si clave es null.
      * @throws IllegalArgumentException Si clave es la cadena vacia.
-     */
-    String remove(String clave);
+	 */
+	String remove (String clave);
+	
+	/**
+	 * Número de entradas del diccionario
+	 * 
+	 * @return número de elementos almacenados.
+	 */
+	int size();
+	
+	/**
+	 * Eliminar todas las claves.
+	 */
+	void clear();
 
-    /**
-     * @return número de elementos almacenados.
-     */
-    int size();
-
-    /**
-     * Elimina todas las claves.
-     */
-    void clear();
 }

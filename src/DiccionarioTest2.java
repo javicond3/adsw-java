@@ -1,10 +1,10 @@
-package es.upm.dit.adsw.ej1;
+package es.upm.dit.adsw.ej2;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-
+import java.util.Random;
 
 /**
  * Pruebas de diccionario
@@ -12,17 +12,21 @@ import org.junit.Test;
  * @author jpuente
  * @version 20160217
  */
-public class DiccionarioTest1 {
+public class DiccionarioTest2 {
 	
-	private Diccionario diccionarioLineal;
-	private Diccionario diccionarioHashMap;
+	private Diccionario diccionarioBinario;
+	private Diccionario diccionarioBST;
 	
 	private static int size = 10;
 	
+	// sin semilla, realmente aleatorio; cada ejecución, datos nuevos
+	// monkey testing
+	private final Random random = new Random();	
+	
 	@Before
 	public void setUp() {
-		diccionarioLineal  = new DiccionarioLineal(size);
-		diccionarioHashMap = new DiccionarioHashMap();
+		diccionarioBinario = new DiccionarioBinario(size);
+		diccionarioBST = new BST();
 	}
 	
 	/**
@@ -30,8 +34,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test
 	public void testEmpty() {
-		testEmpty(diccionarioLineal);
-		testEmpty(diccionarioHashMap);
+		testEmpty(diccionarioBinario);
+		testEmpty(diccionarioBST);
 	}
 	
 	private void testEmpty(Diccionario diccionario) {
@@ -45,13 +49,12 @@ public class DiccionarioTest1 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testPut00() {
-		testPut00(diccionarioLineal);
-		testPut00(diccionarioHashMap);
+		testPut00(diccionarioBinario);
+		testPut00(diccionarioBST);
 	}
 	
 	private void testPut00 (Diccionario diccionario) {
         diccionario.put(null, "valor");
-
 	}
 	
 	/**
@@ -59,8 +62,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testPut01() {
-		testPut01(diccionarioLineal);
-		testPut01(diccionarioHashMap);
+		testPut01(diccionarioBinario);
+		testPut01(diccionarioBST);
 	}
 	
 	private void testPut01(Diccionario diccionario) {
@@ -72,8 +75,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test
 	public void testPut02(){
-		testPut02(diccionarioLineal);
-		testPut02(diccionarioHashMap);
+		testPut02(diccionarioBinario);
+		testPut02(diccionarioBST);
 	}
 	
 	private void testPut02 (Diccionario diccionario) {
@@ -87,8 +90,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test
 	public void testPut03 () {
-		testPut03(diccionarioLineal);
-		testPut03(diccionarioHashMap);		
+		testPut03(diccionarioBinario);		
+		testPut03(diccionarioBST);		
 	}
 	
 	private void testPut03 (Diccionario diccionario) {
@@ -104,7 +107,7 @@ public class DiccionarioTest1 {
 	 */
 	@Test (expected = RuntimeException.class)
 	public void testPut04() {
-		testPut04(diccionarioLineal);
+		testPut04(diccionarioBinario);
 	}
 	
 	private void testPut04 (Diccionario diccionario) {
@@ -119,8 +122,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGet00(){
-		testGet00(diccionarioLineal);
-		testGet00(diccionarioHashMap);
+		testGet00(diccionarioBinario);
+		testGet00(diccionarioBST);
 	}
 	
 	private void testGet00 (Diccionario diccionario) {
@@ -132,8 +135,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGet01() {
-		testGet01(diccionarioLineal);
-		testGet01(diccionarioHashMap);
+		testGet01(diccionarioBinario);
+		testGet01(diccionarioBST);
 	}
 	
 	private void testGet01 (Diccionario diccionario) {
@@ -145,8 +148,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test
 	public void testGet02(){
-		testGet02(diccionarioLineal);
-		testGet02(diccionarioHashMap);
+		testGet02(diccionarioBinario);
+		testGet02(diccionarioBST);
 	}
 	
 	private void testGet02 (Diccionario diccionario) {
@@ -158,8 +161,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test
 	public void testGet03(){
-		testGet03(diccionarioLineal);
-		testGet03(diccionarioHashMap);
+		testGet03(diccionarioBinario);
+		testGet03(diccionarioBST);
 	}
 	
 	private void testGet03 (Diccionario diccionario) {
@@ -172,8 +175,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testRemove00(){
-		testRemove00(diccionarioLineal);
-		testRemove00(diccionarioHashMap);
+		testRemove00(diccionarioBinario);
+		testRemove00(diccionarioBST);
 	}
 	
 	private void testRemove00 (Diccionario diccionario) {
@@ -185,8 +188,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testRemove01(){
-		testRemove01(diccionarioLineal);
-		testRemove01(diccionarioHashMap);
+		testRemove01(diccionarioBinario);
+		testRemove01(diccionarioBST);
 	}
 	
 	private void testRemove01 (Diccionario diccionario) {
@@ -199,8 +202,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test 
 	public void testRemove02() {
-		testRemove02(diccionarioLineal);
-		testRemove02(diccionarioHashMap);
+		testRemove02(diccionarioBinario);
+		testRemove02(diccionarioBST);
 	}
 	
 	private void testRemove02 (Diccionario diccionario) {
@@ -213,8 +216,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test
 	public void testRemove03() {
-		testRemove03(diccionarioLineal);
-		testRemove03(diccionarioHashMap);
+		testRemove03(diccionarioBinario);
+		testRemove03(diccionarioBST);
 	}
 	
 	private void testRemove03 (Diccionario diccionario) {
@@ -228,8 +231,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test
 	public void testRemove04(){
-		testRemove04(diccionarioLineal);
-		testRemove04(diccionarioHashMap);
+		testRemove04(diccionarioBinario);
+		testRemove04(diccionarioBST);
 	}
 	
 	private void testRemove04 (Diccionario diccionario) {		
@@ -243,8 +246,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test
 	public void testRemove05(){
-		testRemove05(diccionarioLineal);
-		testRemove05(diccionarioHashMap);
+		testRemove05(diccionarioBinario);
+		testRemove05(diccionarioBST);
 	}
 	
 	private void testRemove05 (Diccionario diccionario) {			
@@ -264,8 +267,8 @@ public class DiccionarioTest1 {
 	 */
 	@Test
 	public void testClear00(){
-		testClear00(diccionarioLineal);
-		testClear00(diccionarioHashMap);
+		testClear00(diccionarioBinario);
+		testClear00(diccionarioBST);
 	}
 	
 	private void testClear00 (Diccionario diccionario) {	
@@ -273,6 +276,75 @@ public class DiccionarioTest1 {
 		diccionario.clear();
 		assertNull(diccionario.get("clave"));
 		assertEquals(0,diccionario.size());
+	}
+	
+	/**
+	 * Test aleatorios
+	 */
+	@Test
+	public void testN() {
+		testN(diccionarioBinario);
+		testN(diccionarioBST);
+	}
+	   
+	private void testN(Diccionario diccionario) {
+		int N = 10;
+		
+		for (int vez = 0; vez < 10; vez++) {
+			int[] datos = mkData(N);
+
+			// carga el diccionario con claves y valores aleatorios
+			for (int dato : datos) {
+				String clave = String.format("[%d]", dato);
+				String valor = String.valueOf(dato);
+				diccionario.put(clave, valor);
+			}
+			assertEquals(N, diccionario.size());
+
+			// recarga
+			for (int dato : datos) {
+				String clave = String.format("[%d]", dato);
+				String valor = String.valueOf(dato);
+				diccionario.put(clave, valor);
+			}
+			assertEquals(N, diccionario.size());
+
+			// acceso
+			for (int dato : datos) {
+				String clave = String.format("[%d]", dato);
+				String valor = String.valueOf(dato);
+				assertEquals(valor, diccionario.get(clave));
+			}
+
+			// borrado
+			for (int dato : datos) {
+				String clave = String.format("[%d]", dato);
+				String valor = String.valueOf(dato);
+				assertEquals(valor, diccionario.remove(clave));
+			}
+			assertEquals(0, diccionario.size());
+
+			diccionario.clear();
+		}
+	}
+
+	/**
+	 * genera un vector de n enteros /* entre 0 y n, revueltos aleatoriamente 
+	 * sin duplicados
+	 **/
+	private int[] mkData(int n) {
+		int[] datos = new int[n];
+		for (int i = 0; i < n; i++)
+			datos[i] = i;
+		for (int i = 0; i < n; i++) {
+			int p = random.nextInt(n);
+			int q = random.nextInt(n);
+			int dp = datos[p];
+			int dq = datos[q];
+			datos[p] = dq;
+			datos[q] = dp;
+		}
+		return datos;
 	}
 		
 }

@@ -1,4 +1,4 @@
-package es.upm.dit.adsw.ej1;
+package es.upm.dit.adsw.ej2;
 
 /**
  * Pareja clave-valor.
@@ -6,7 +6,7 @@ package es.upm.dit.adsw.ej1;
  * @author jose a. manas
  * @version 1.2.2016
  */
-class CV {
+class CV implements Comparable<CV> {
     private final String clave;
     private String valor;
 
@@ -47,4 +47,17 @@ class CV {
     public void setValor(String valor) {
         this.valor = valor;
     }
+    
+    /** 
+     * compara dos pares (clave, valor)
+     * @param
+     *   el elemento con el se compara
+     * @return
+     *   el resultado de comparar las claves respectivas
+     */
+    @Override
+    public int compareTo(CV dato) {
+    	return this.clave.compareTo(dato.clave);
+    }
+    
 }
