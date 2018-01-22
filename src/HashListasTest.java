@@ -1,9 +1,11 @@
-package es.upm.dit.adsw.ej2;
+package es.upm.dit.adsw.ej3;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+
 import java.util.Random;
 
 /**
@@ -12,21 +14,17 @@ import java.util.Random;
  * @author jpuente
  * @version 20160217
  */
-public class DiccionarioTest2 {
+public class HashListasTest {
 	
-	private Diccionario diccionarioBinario;
-	private Diccionario diccionarioBST;
+	private Diccionario diccionario;
 	
-	private static int size = 10;
+	private static int NSLOTS = 8;
 	
-	// sin semilla, realmente aleatorio; cada ejecución, datos nuevos
-	// monkey testing
 	private final Random random = new Random();	
 	
 	@Before
 	public void setUp() {
-		diccionarioBinario = new DiccionarioBinario(size);
-		diccionarioBST = new BST();
+		diccionario = new HashListas(NSLOTS);
 	}
 	
 	/**
@@ -34,8 +32,7 @@ public class DiccionarioTest2 {
 	 */
 	@Test
 	public void testEmpty() {
-		testEmpty(diccionarioBinario);
-		testEmpty(diccionarioBST);
+		testEmpty(diccionario);
 	}
 	
 	private void testEmpty(Diccionario diccionario) {
@@ -49,12 +46,12 @@ public class DiccionarioTest2 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testPut00() {
-		testPut00(diccionarioBinario);
-		testPut00(diccionarioBST);
+		testPut00(diccionario);
 	}
 	
 	private void testPut00 (Diccionario diccionario) {
         diccionario.put(null, "valor");
+
 	}
 	
 	/**
@@ -62,12 +59,11 @@ public class DiccionarioTest2 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testPut01() {
-		testPut01(diccionarioBinario);
-		testPut01(diccionarioBST);
+		testPut01(diccionario);
 	}
 	
 	private void testPut01(Diccionario diccionario) {
-        diccionario.put("", "valor");
+        diccionario.put("", "valor01");
 	}
 	
 	/**
@@ -75,46 +71,29 @@ public class DiccionarioTest2 {
 	 */
 	@Test
 	public void testPut02(){
-		testPut02(diccionarioBinario);
-		testPut02(diccionarioBST);
+		testPut02(diccionario);
 	}
 	
 	private void testPut02 (Diccionario diccionario) {
-		diccionario.put("clave", "valor");
+		diccionario.put("clave02", "valor02");
 		assertEquals(1,diccionario.size());
-		assertEquals("valor",diccionario.get("clave"));	
+		assertEquals("valor02",diccionario.get("clave02"));	
 	}
 
 	/** 
 	 * Introducir clave repetida
 	 */
 	@Test
-	public void testPut03 () {
-		testPut03(diccionarioBinario);		
-		testPut03(diccionarioBST);		
+	public void testPut03 () {	
+		testPut03(diccionario);		
 	}
 	
 	private void testPut03 (Diccionario diccionario) {
-		diccionario.put("clave", "valor1");
+		diccionario.put("clave03", "valor1");
 		assertEquals(1,diccionario.size());
-		diccionario.put("clave", "valor2");
+		diccionario.put("clave03", "valor2");
 		assertEquals(1,diccionario.size());
-		assertEquals("valor2",diccionario.get("clave"));	
-	}
-	
-	/**
-	 * Introducir valor nuevo en diccionario lleno
-	 */
-	@Test (expected = RuntimeException.class)
-	public void testPut04() {
-		testPut04(diccionarioBinario);
-	}
-	
-	private void testPut04 (Diccionario diccionario) {
-		for (int i =0; i < size; i++) {
-			diccionario.put(Integer.toString(i), "valor");
-		}
-		diccionario.put("otro","lleno");
+		assertEquals("valor2",diccionario.get("clave03"));	
 	}
 	
 	/**
@@ -122,8 +101,7 @@ public class DiccionarioTest2 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGet00(){
-		testGet00(diccionarioBinario);
-		testGet00(diccionarioBST);
+		testGet00(diccionario);
 	}
 	
 	private void testGet00 (Diccionario diccionario) {
@@ -135,8 +113,7 @@ public class DiccionarioTest2 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testGet01() {
-		testGet01(diccionarioBinario);
-		testGet01(diccionarioBST);
+		testGet01(diccionario);
 	}
 	
 	private void testGet01 (Diccionario diccionario) {
@@ -148,12 +125,11 @@ public class DiccionarioTest2 {
 	 */
 	@Test
 	public void testGet02(){
-		testGet02(diccionarioBinario);
-		testGet02(diccionarioBST);
+		testGet02(diccionario);
 	}
 	
 	private void testGet02 (Diccionario diccionario) {
-		assertNull(diccionario.get("clave"));			
+		assertNull(diccionario.get("clave inxistente"));			
 	}
 
 	/**
@@ -161,13 +137,12 @@ public class DiccionarioTest2 {
 	 */
 	@Test
 	public void testGet03(){
-		testGet03(diccionarioBinario);
-		testGet03(diccionarioBST);
+		testGet03(diccionario);
 	}
 	
 	private void testGet03 (Diccionario diccionario) {
-		diccionario.put("clave", "valor");
-		assertNull(diccionario.get("clave1"));		
+		diccionario.put("clave válida", "valor");
+		assertNull(diccionario.get("clave inexistente"));		
 	}
 
 	/**
@@ -175,8 +150,7 @@ public class DiccionarioTest2 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testRemove00(){
-		testRemove00(diccionarioBinario);
-		testRemove00(diccionarioBST);
+		testRemove00(diccionario);
 	}
 	
 	private void testRemove00 (Diccionario diccionario) {
@@ -188,8 +162,7 @@ public class DiccionarioTest2 {
 	 */
 	@Test (expected = IllegalArgumentException.class)
 	public void testRemove01(){
-		testRemove01(diccionarioBinario);
-		testRemove01(diccionarioBST);
+		testRemove01(diccionario);
 	}
 	
 	private void testRemove01 (Diccionario diccionario) {
@@ -202,12 +175,11 @@ public class DiccionarioTest2 {
 	 */
 	@Test 
 	public void testRemove02() {
-		testRemove02(diccionarioBinario);
-		testRemove02(diccionarioBST);
+		testRemove02(diccionario);
 	}
 	
 	private void testRemove02 (Diccionario diccionario) {
-		assertNull(diccionario.remove("clave"));
+		assertNull(diccionario.remove("clave02"));
 		assertEquals(0,diccionario.size());		
 	}
 	
@@ -216,13 +188,12 @@ public class DiccionarioTest2 {
 	 */
 	@Test
 	public void testRemove03() {
-		testRemove03(diccionarioBinario);
-		testRemove03(diccionarioBST);
+		testRemove03(diccionario);
 	}
 	
 	private void testRemove03 (Diccionario diccionario) {
-		diccionario.put("clave", "valor");
-		assertNull(diccionario.remove("clave1"));
+		diccionario.put("clave válida", "valor");
+		assertNull(diccionario.remove("clave inexistente"));
 		assertEquals(1,diccionario.size());
 	}
 	
@@ -231,8 +202,7 @@ public class DiccionarioTest2 {
 	 */
 	@Test
 	public void testRemove04(){
-		testRemove04(diccionarioBinario);
-		testRemove04(diccionarioBST);
+		testRemove04(diccionario);
 	}
 	
 	private void testRemove04 (Diccionario diccionario) {		
@@ -246,8 +216,7 @@ public class DiccionarioTest2 {
 	 */
 	@Test
 	public void testRemove05(){
-		testRemove05(diccionarioBinario);
-		testRemove05(diccionarioBST);
+		testRemove05(diccionario);
 	}
 	
 	private void testRemove05 (Diccionario diccionario) {			
@@ -267,8 +236,7 @@ public class DiccionarioTest2 {
 	 */
 	@Test
 	public void testClear00(){
-		testClear00(diccionarioBinario);
-		testClear00(diccionarioBST);
+		testClear00(diccionario);
 	}
 	
 	private void testClear00 (Diccionario diccionario) {	
@@ -279,54 +247,121 @@ public class DiccionarioTest2 {
 	}
 	
 	/**
+	 * Llenar la tabla
+	 */
+	@Test
+	public void test01() {
+		test01(diccionario);
+	}
+	
+	private void test01(Diccionario diccionario) {
+		int[] datos = {3, 1, 2, 5, 7, 4, 6, 9};
+		
+		for (int d : datos) {
+			String c = String.format("[%d]",  d);
+			String v = String.valueOf(d);
+			diccionario.put(c, v);
+		}
+		assertEquals(datos.length, diccionario.size());
+		
+		for (int d : datos) {
+			String c = String.format("[%d]",  d);
+			String v = String.valueOf(d);
+			assertEquals(v, diccionario.get(c));
+		}
+		assertNull(diccionario.get("clave"));
+		assertNull(diccionario.remove("clave"));
+		
+		for (int d : datos) {
+			String c = String.format("[%d]",  d);
+			String v = String.valueOf(d);
+			assertEquals(v, diccionario.remove(c));
+		}	
+        assertEquals(0, diccionario.size());		
+	}
+	
+	/**
 	 * Test aleatorios
 	 */
 	@Test
 	public void testN() {
-		testN(diccionarioBinario);
-		testN(diccionarioBST);
+		testN(diccionario);
 	}
 	   
 	private void testN(Diccionario diccionario) {
-		int N = 10;
+		int N = 2*NSLOTS;
 		
-		for (int vez = 0; vez < 10; vez++) {
-			int[] datos = mkData(N);
+		int[] datos = mkData(N);
 
-			// carga el diccionario con claves y valores aleatorios
-			for (int dato : datos) {
-				String clave = String.format("[%d]", dato);
-				String valor = String.valueOf(dato);
-				diccionario.put(clave, valor);
-			}
-			assertEquals(N, diccionario.size());
-
-			// recarga
-			for (int dato : datos) {
-				String clave = String.format("[%d]", dato);
-				String valor = String.valueOf(dato);
-				diccionario.put(clave, valor);
-			}
-			assertEquals(N, diccionario.size());
-
-			// acceso
-			for (int dato : datos) {
-				String clave = String.format("[%d]", dato);
-				String valor = String.valueOf(dato);
-				assertEquals(valor, diccionario.get(clave));
-			}
-
-			// borrado
-			for (int dato : datos) {
-				String clave = String.format("[%d]", dato);
-				String valor = String.valueOf(dato);
-				assertEquals(valor, diccionario.remove(clave));
-			}
-			assertEquals(0, diccionario.size());
-
-			diccionario.clear();
+		// carga el diccionario con claves y valores aleatorios
+		for (int d : datos) {
+			String clave = String.format("[%d]", d);
+			String valor = String.valueOf(d);
+			diccionario.put(clave, valor);
+			assertEquals(valor,diccionario.get(clave));
+			assertNull(diccionario.get("no esta"));
 		}
+		assertEquals(datos.length, diccionario.size());
+
+		// recarga
+		for (int d : datos) {
+			String clave = String.format("[%d]", d);
+			String valor2 = Integer.toString(2) + "_2";
+			diccionario.put(clave, valor2);
+			assertEquals(valor2,diccionario.get(clave));
+			assertNull(diccionario.get("no esta"));
+		}
+		assertEquals(datos.length, diccionario.size());
+
+		// borrado
+		for (int d : datos) {
+			String clave = String.format("[%d]", d);
+			String valor2 = Integer.toString(2) + "_2";
+			diccionario.put(clave, valor2);
+			assertEquals(valor2,diccionario.remove(clave));
+			assertNull(diccionario.remove("no esta"));
+		}		
+		assertEquals(0, diccionario.size());
+
 	}
+	
+	/**
+	 * eliminar
+	 */
+
+    @Test
+    public void testNRemove() {
+    	testNRemove(diccionario);
+    }
+    
+    private void testNRemove( Diccionario diccionario) {
+        int N = 2 * NSLOTS;
+        int[] datos = mkData(N);
+
+        for (int i = 0; i < NSLOTS / 2; i++) {
+            int dato = datos[i];
+            String clave = String.format("[%d]", dato);
+            String valor = Integer.toString(dato);
+            diccionario.put(clave, valor);
+        }
+        assertNull(diccionario.get("no esta"));
+        assertEquals(NSLOTS/2, diccionario.size());
+        diccionario.clear();
+        assertNull(diccionario.get("no esta"));
+        assertEquals(0, diccionario.size());
+
+        for (int i = 0; i < N; i++) {
+            int d = datos[i];
+            String clave = String.format("[%d]", d);
+            String valor = Integer.toString(d);
+            diccionario.put(clave, valor);
+        }
+        assertNull(diccionario.get("no esta"));
+        assertEquals(N, diccionario.size());
+        assertNull(diccionario.get("no esta"));
+        diccionario.clear();
+        assertEquals(0, diccionario.size());
+    }   	
 
 	/**
 	 * genera un vector de n enteros /* entre 0 y n, revueltos aleatoriamente 
