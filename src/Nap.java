@@ -1,4 +1,4 @@
-package es.upm.dit.adsw.ej5;
+package es.upm.dit.adsw.ej6;
 
 import java.util.Random;
 
